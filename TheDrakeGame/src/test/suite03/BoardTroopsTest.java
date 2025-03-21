@@ -27,6 +27,7 @@ public class BoardTroopsTest {
     public void placingTroops() {
         Board board = new Board(3);
         PositionFactory pf = board.positionFactory();
+        StandardDrakeSetup setup = new StandardDrakeSetup();
 
         // There are no troops at the beginning, no leader, no guards
         BoardTroops troops1 = new BoardTroops(PlayingSide.BLUE);
@@ -40,7 +41,7 @@ public class BoardTroopsTest {
         checkEmpty(board, troops1);
 
         // First we must place the leader
-        Troop drake = new Troop("Drake");
+        Troop drake = setup.DRAKE;
         BoardTroops troops2 = troops1.placeTroop(drake, pf.pos("a2"));
         assertNotSame(troops1, troops2);
         checkEmpty(board, troops1);
@@ -65,7 +66,7 @@ public class BoardTroopsTest {
         assertEquals(pf.pos("a2"), troops2.leaderPosition());
 
         // First guard
-        Troop clubman1 = new Troop("Clubman");
+        Troop clubman1 = setup.CLUBMAN;
         BoardTroops troops3 = troops2.placeTroop(clubman1, pf.pos("a1"));
         assertSame(1, troops3.guards());
         assertSame(true, troops3.isLeaderPlaced());
@@ -90,7 +91,7 @@ public class BoardTroopsTest {
         assertEquals(Optional.empty(), troops3.at(pf.pos("c3")));
 
         // Second guard
-        Troop clubman2 = new Troop("Clubman");
+        Troop clubman2 = setup.CLUBMAN;
         BoardTroops troops4 = troops3.placeTroop(clubman2, pf.pos("b2"));
         assertSame(2, troops4.guards());
         assertSame(true, troops4.isLeaderPlaced());
@@ -116,7 +117,7 @@ public class BoardTroopsTest {
         assertEquals(Optional.empty(), troops4.at(pf.pos("c3")));
 
         // Another unit (4th including leader and guard)
-        Troop spearman = new Troop("Spearman");
+        Troop spearman = setup.SPEARMAN;
         BoardTroops troops5 = troops4.placeTroop(spearman, pf.pos("c1"));
         assertSame(2, troops5.guards());
         assertSame(true, troops5.isLeaderPlaced());
@@ -151,10 +152,11 @@ public class BoardTroopsTest {
         BoardTroops troops = new BoardTroops(PlayingSide.ORANGE);
         assertSame(PlayingSide.ORANGE, troops.playingSide());
 
-        Troop drake = new Troop("Clubman");
-        Troop clubman1 = new Troop("Clubman");
-        Troop clubman2 = new Troop("Clubman");
-        Troop spearman = new Troop("Spearman");
+        StandardDrakeSetup setup = new StandardDrakeSetup();
+        Troop drake = setup.DRAKE;
+        Troop clubman1 = setup.CLUBMAN;
+        Troop clubman2 = setup.CLUBMAN;
+        Troop spearman = setup.SPEARMAN;
 
         try {
             troops.troopStep(pf.pos("a2"), pf.pos("a3"));
@@ -252,9 +254,10 @@ public class BoardTroopsTest {
         BoardTroops troops = new BoardTroops(PlayingSide.ORANGE);
         assertSame(PlayingSide.ORANGE, troops.playingSide());
 
-        Troop drake = new Troop("Clubman");
-        Troop clubman1 = new Troop("Clubman");
-        Troop clubman2 = new Troop("Clubman");
+        StandardDrakeSetup setup = new StandardDrakeSetup();
+        Troop drake = setup.DRAKE;
+        Troop clubman1 = setup.CLUBMAN;
+        Troop clubman2 = setup.CLUBMAN;
 
         try {
             troops.troopFlip(pf.pos("a2"));
@@ -305,9 +308,10 @@ public class BoardTroopsTest {
         BoardTroops troops = new BoardTroops(PlayingSide.ORANGE);
         assertSame(PlayingSide.ORANGE, troops.playingSide());
 
-        Troop drake = new Troop("Clubman");
-        Troop clubman1 = new Troop("Clubman");
-        Troop clubman2 = new Troop("Clubman");
+        StandardDrakeSetup setup = new StandardDrakeSetup();
+        Troop drake = setup.DRAKE;
+        Troop clubman1 = setup.CLUBMAN;
+        Troop clubman2 = setup.CLUBMAN;
 
         try {
             troops.removeTroop(pf.pos("a2"));
