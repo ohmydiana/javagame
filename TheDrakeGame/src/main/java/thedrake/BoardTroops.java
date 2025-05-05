@@ -1,8 +1,9 @@
 package thedrake;
 
+import java.io.PrintWriter;
 import java.util.*;
 
-public class BoardTroops {
+public class BoardTroops implements JSONSerializable {
     private final PlayingSide playingSide;
     private final Map<BoardPos, TroopTile> troopMap;
     private final TilePos leaderPosition;
@@ -132,5 +133,40 @@ public class BoardTroops {
         TilePos newLeaderPosition = leaderPosition.equals(target) ? TilePos.OFF_BOARD : leaderPosition;
 
         return new BoardTroops(playingSide, newMap, newLeaderPosition, guards);
+    }
+
+    @Override
+    public void toJSON (PrintWriter writer) {
+        writer.print("{");
+
+        writer.print("\"side\":\"" + this.playingSide + "\",");
+        writer.print("\"leaderPosition\":");
+        this.leaderPosition.toJSON(writer);
+        writer.print(",\"guards\":" + this.guards + ",");
+
+        writer.print("\"troopMap\":");
+        writer.print("{");
+
+        Set <BoardPos> positions = new TreeSet<>(Comparator.comparing(BoardPos::toString));
+        positions.addAll(troopMap.keySet());
+        boolean isInside = false;
+        for (BoardPos pos : positions) {
+            TroopTile tile = troopMap.get(pos);
+
+            if (tile != null) {
+                if (!isInside) {
+                    pos.toJSON(writer);
+                    isInside = true;
+                }
+                else {
+                    writer.print(",");
+                    pos.toJSON(writer);
+                }
+                writer.print(":");
+                tile.toJSON(writer);
+            }
+        }
+        writer.print("}");
+        writer.print("}");
     }
 }

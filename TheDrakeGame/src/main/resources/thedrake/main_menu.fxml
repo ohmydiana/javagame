@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="rootPane"
+           xmlns="http://javafx.com/javafx/23.0.1"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="thedrake.MainMenuController"
+           prefWidth="800" prefHeight="600"
+           stylesheets="@style.css">
+
+        <ImageView fx:id="backgroundImageView" preserveRatio="false" />
+
+        <VBox alignment="CENTER" spacing="20">
+            <padding>
+                <Insets top="40" right="20" bottom="40" left="20"/>
+            </padding>
+
+            <Text styleClass="title-text" text="The Drake" textAlignment="CENTER">
+                <font>
+                    <Font name="Georgia" size="80"/>
+                </font>
+            </Text>
+
+            <Button text="Hra dvou hráčů" onAction="#onPlayerVsPlayerClicked"/>
+            <Button text="Hra proti počítači"/>
+            <Button text="Hra po internetu"/>
+            <Button fx:id="endButton" onAction="#onEndButtonClick" text="Konec"/>
+        </VBox>
+
+</StackPane>

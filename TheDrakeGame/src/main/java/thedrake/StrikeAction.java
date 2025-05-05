@@ -19,7 +19,7 @@ public class StrikeAction extends TroopAction {
         TilePos target = origin.stepByPlayingSide(offset(), side);
 
         if (state.canCapture(origin, target)) {
-            result.add(new StepAndCapture(origin, (BoardPos) target));
+            result.add(new CaptureOnly(origin, (BoardPos) target));
         }
 
         return result;

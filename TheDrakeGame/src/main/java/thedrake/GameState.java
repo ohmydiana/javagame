@@ -1,8 +1,10 @@
 package thedrake;
 
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 
-public class GameState {
+public class GameState implements JSONSerializable {
     private final Board board;
     private final PlayingSide sideOnTurn;
     private final Army blueArmy;
@@ -83,11 +85,12 @@ public class GameState {
     }
 
     private boolean canStepTo(TilePos target) {
-        if (target == TilePos.OFF_BOARD || !board.at(target).canStepOn()) {
+        if (target == TilePos.OFF_BOARD) {
             return false;
         }
 
-        return result == GameResult.IN_PLAY && armyOnTurn().boardTroops().at(target).isEmpty() && armyNotOnTurn().boardTroops().at(target).isEmpty();
+        return result == GameResult.IN_PLAY && armyOnTurn().boardTroops().at(target).isEmpty()
+                && armyNotOnTurn().boardTroops().at(target).isEmpty() && board.at(target).canStepOn();
     }
 
     private boolean canCaptureOn(TilePos target) {
@@ -205,4 +208,31 @@ public class GameState {
 
         return new GameState(board, armyNotOnTurn, armyOnTurn, PlayingSide.ORANGE, result);
     }
+
+    public List<Troop> capturedTroops(PlayingSide side) {
+        if (side == PlayingSide.BLUE) {
+            return blueArmy.captured();
+        } else {
+            return orangeArmy.captured();
+        }
+    }
+
+    @Override
+    public void toJSON (PrintWriter writer) {
+        writer.print("{");
+
+        writer.printf("\"result\":\"%s\",", result);
+
+        writer.print("\"board\":");
+        board.toJSON(writer);
+
+        writer.print(",\"blueArmy\":");
+        blueArmy.toJSON(writer);
+
+        writer.print(",\"orangeArmy\":");
+        orangeArmy.toJSON(writer);
+
+        writer.print("}");
+    }
+
 }

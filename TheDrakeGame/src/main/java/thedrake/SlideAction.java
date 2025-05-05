@@ -15,21 +15,19 @@ public class SlideAction extends TroopAction {
     @Override
     public List<Move> movesFrom(BoardPos origin, PlayingSide side, GameState state) {
         List<Move> result = new ArrayList<>();
-        TilePos currentPos = origin;
-        TilePos target = currentPos.stepByPlayingSide(offset(), side);
+        TilePos target = origin.stepByPlayingSide(offset(), side);
 
-        while (state.canStep(currentPos, target) || state.canCapture(currentPos, target)) {
-            if (state.canStep(currentPos, target)) {
-                result.add(new StepOnly((BoardPos) currentPos, (BoardPos) target));
+        while (state.canStep(origin, target) || state.canCapture(origin, target)) {
+            if (state.canStep(origin, target)) {
+                result.add(new StepOnly((BoardPos) origin, (BoardPos) target));
             }
 
-            if (state.canCapture(currentPos, target)) {
-                result.add(new StepAndCapture((BoardPos) currentPos, (BoardPos) target));
+            if (state.canCapture(origin, target)) {
+                result.add(new StepAndCapture((BoardPos) origin, (BoardPos) target));
                 break;
             }
 
-            currentPos = (BoardPos) target;
-            target = currentPos.stepByPlayingSide(offset(), side);
+            target = target.stepByPlayingSide(offset(), side);
         }
 
         return result;

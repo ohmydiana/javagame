@@ -1,6 +1,13 @@
 package thedrake;
 
-public enum PlayingSide {
+import java.io.PrintWriter;
+
+public enum PlayingSide implements JSONSerializable {
     ORANGE,
-    BLUE
+    BLUE;
+
+    @Override
+    public void toJSON (PrintWriter writer) {
+        writer.print("\"" + this.name() + "\"");
+    }
 }

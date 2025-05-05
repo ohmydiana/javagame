@@ -1,6 +1,13 @@
 package thedrake;
 
-public enum TroopFace {
+import java.io.PrintWriter;
+
+public enum TroopFace implements JSONSerializable{
     AVERS,
-    REVERS
+    REVERS;
+
+    @Override
+    public void toJSON (PrintWriter writer) {
+        writer.print("\"" + this.name() + "\"");
+    }
 }
